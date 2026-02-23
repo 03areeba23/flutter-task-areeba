@@ -7,6 +7,7 @@ import 'dart:async' as _i5;
 import 'dart:ui' as _i6;
 
 import 'package:flutter/material.dart' as _i4;
+import 'package:flutter_task_areeba/models/bundle_plan.dart' as _i8;
 import 'package:flutter_task_areeba/services/bundle_service.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i3;
@@ -687,4 +688,24 @@ class MockDialogService extends _i1.Mock implements _i2.DialogService {
 /// A class which mocks [BundleService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockBundleService extends _i1.Mock implements _i7.BundleService {}
+class MockBundleService extends _i1.Mock implements _i7.BundleService {
+  @override
+  List<_i8.BundleData> getBundles() => (super.noSuchMethod(
+        Invocation.method(
+          #getBundles,
+          [],
+        ),
+        returnValue: <_i8.BundleData>[],
+        returnValueForMissingStub: <_i8.BundleData>[],
+      ) as List<_i8.BundleData>);
+
+  @override
+  List<_i8.RegionalPlan> getRegionalPlans() => (super.noSuchMethod(
+        Invocation.method(
+          #getRegionalPlans,
+          [],
+        ),
+        returnValue: <_i8.RegionalPlan>[],
+        returnValueForMissingStub: <_i8.RegionalPlan>[],
+      ) as List<_i8.RegionalPlan>);
+}
