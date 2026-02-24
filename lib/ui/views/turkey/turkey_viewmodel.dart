@@ -1,15 +1,24 @@
+import 'package:flutter_task_areeba/app/app.bottomsheets.dart';
 import 'package:flutter_task_areeba/app/app.locator.dart';
 import 'package:flutter_task_areeba/models/bundle_plan.dart';
 import 'package:flutter_task_areeba/services/bundle_service.dart';
+import 'package:flutter_task_areeba/services/cart_service.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 enum BundleFilter { all, standard, unlimited }
 
 class TurkeyViewModel extends BaseViewModel {
   final _bundleService = locator<BundleService>();
+  final _cartService = locator<CartService>();
+  final _bottomSheetService = locator<BottomSheetService>();
 
   BundleFilter _selectedFilter = BundleFilter.all;
   BundleFilter get selectedFilter => _selectedFilter;
+  CartService get cartService => _cartService;
+
+  bool get hasCartItems => _cartService.hasItems;
+  String get cartTotal => _cartService.formattedTotal;
 
   List<BundleData> get bundles {
     final all = _bundleService.getBundles();
@@ -29,4 +38,15 @@ class TurkeyViewModel extends BaseViewModel {
     _selectedFilter = filter;
     notifyListeners();
   }
+
+  void onBundleTapped(BundleData bundle) {
+    _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.bundleDetail,
+      data: bundle,
+    );
+  }
+
+  void increment(BundleData bundle) => _cartService.addItem(bundle);
+  void decrement(BundleData bundle) => _cartService.removeOne(bundle);
+  void remove(BundleData bundle) => _cartService.removeItem(bundle);
 }

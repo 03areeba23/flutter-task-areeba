@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_task_areeba/models/bundle_plan.dart';
-import 'package:flutter_task_areeba/ui/common/app_colors.dart';
-import 'package:flutter_task_areeba/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -107,6 +104,18 @@ class BundleDetailSheet extends StackedView<BundleDetailSheetModel> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                _QuantityButton(
+                  icon: Icons.remove,
+                  onTap: viewModel.decrement,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'x${viewModel.quantity}',
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
                 _QuantityButton(
                   icon: Icons.add,
                   onTap: viewModel.increment,

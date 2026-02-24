@@ -60,6 +60,28 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
             ),
           ),
         ),
+        bottomNavigationBar: viewModel.hasCartItems
+            ? Padding(
+                padding: const EdgeInsets.all(16),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF00C897),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                  ),
+                  child: Text(
+                    '${viewModel.cartTotal} - CHECKOUT',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              )
+            : null,
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -119,17 +141,25 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
 
               //Bundle grid
               GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: viewModel.bundles.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 14,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 0.8,
-                ),
-                itemBuilder: (_, i) => BundleCard(bundle: viewModel.bundles[i]),
-              ),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: viewModel.bundles.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 14,
+                    crossAxisSpacing: 12,
+                    childAspectRatio: 0.8,
+                  ),
+                  itemBuilder: (_, i) {
+                    final bundle = viewModel.bundles[i];
+                    return BundleCard(
+                        bundle: bundle,
+                        cartService: viewModel.cartService,
+                        onTap: () => viewModel.onBundleTapped(bundle),
+                        onIncrement: () => viewModel.increment(bundle),
+                        onDecrement: () => viewModel.decrement(bundle),
+                        onRemove: () => viewModel.remove(bundle));
+                  }),
               const SizedBox(
                 height: 24,
               ),
