@@ -3,6 +3,7 @@ import 'package:mockito/mockito.dart';
 import 'package:flutter_task_areeba/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:flutter_task_areeba/services/bundle_service.dart';
+import 'package:flutter_task_areeba/services/cart_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -14,6 +15,7 @@ import 'test_helpers.mocks.dart';
     MockSpec<BottomSheetService>(onMissingStub: OnMissingStub.returnDefault),
     MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
     MockSpec<BundleService>(onMissingStub: OnMissingStub.returnDefault),
+    MockSpec<CartService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
   ],
 )
@@ -22,6 +24,7 @@ void registerServices() {
   getAndRegisterBottomSheetService();
   getAndRegisterDialogService();
   getAndRegisterBundleService();
+  getAndRegisterCartService();
 // @stacked-mock-register
 }
 
@@ -83,6 +86,13 @@ MockBundleService getAndRegisterBundleService() {
   _removeRegistrationIfExists<BundleService>();
   final service = MockBundleService();
   locator.registerSingleton<BundleService>(service);
+  return service;
+}
+
+MockCartService getAndRegisterCartService() {
+  _removeRegistrationIfExists<CartService>();
+  final service = MockCartService();
+  locator.registerSingleton<CartService>(service);
   return service;
 }
 // @stacked-mock-create

@@ -9,6 +9,7 @@ import 'dart:ui' as _i6;
 import 'package:flutter/material.dart' as _i4;
 import 'package:flutter_task_areeba/models/bundle_plan.dart' as _i8;
 import 'package:flutter_task_areeba/services/bundle_service.dart' as _i7;
+import 'package:flutter_task_areeba/services/cart_service.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i3;
 import 'package:stacked_services/stacked_services.dart' as _i2;
@@ -709,3 +710,8 @@ class MockBundleService extends _i1.Mock implements _i7.BundleService {
         returnValueForMissingStub: <_i8.RegionalPlan>[],
       ) as List<_i8.RegionalPlan>);
 }
+
+/// A class which mocks [CartService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCartService extends _i1.Mock implements _i9.CartService {}

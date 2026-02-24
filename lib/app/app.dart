@@ -6,6 +6,7 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:flutter_task_areeba/services/bundle_service.dart';
 import 'package:flutter_task_areeba/ui/views/turkey/turkey_view.dart';
+import 'package:flutter_task_areeba/services/cart_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -20,6 +21,7 @@ import 'package:flutter_task_areeba/ui/views/turkey/turkey_view.dart';
     LazySingleton(classType: DialogService),
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: BundleService),
+    LazySingleton(classType: CartService),
 // @stacked-service
   ],
   bottomsheets: [
