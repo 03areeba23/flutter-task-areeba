@@ -7,6 +7,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:flutter_task_areeba/services/bundle_service.dart';
 import 'package:flutter_task_areeba/ui/views/turkey/turkey_view.dart';
 import 'package:flutter_task_areeba/services/cart_service.dart';
+import 'package:flutter_task_areeba/ui/bottom_sheets/bundle_detail/bundle_detail_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -26,7 +27,8 @@ import 'package:flutter_task_areeba/services/cart_service.dart';
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),
-    // @stacked-bottom-sheet
+    StackedBottomsheet(classType: BundleDetailSheet),
+// @stacked-bottom-sheet
   ],
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),

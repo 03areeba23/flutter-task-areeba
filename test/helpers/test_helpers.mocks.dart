@@ -8,6 +8,7 @@ import 'dart:ui' as _i6;
 
 import 'package:flutter/material.dart' as _i4;
 import 'package:flutter_task_areeba/models/bundle_plan.dart' as _i8;
+import 'package:flutter_task_areeba/models/cart_item.dart' as _i10;
 import 'package:flutter_task_areeba/services/bundle_service.dart' as _i7;
 import 'package:flutter_task_areeba/services/cart_service.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
@@ -714,4 +715,127 @@ class MockBundleService extends _i1.Mock implements _i7.BundleService {
 /// A class which mocks [CartService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCartService extends _i1.Mock implements _i9.CartService {}
+class MockCartService extends _i1.Mock implements _i9.CartService {
+  @override
+  List<_i10.CartItem> get items => (super.noSuchMethod(
+        Invocation.getter(#items),
+        returnValue: <_i10.CartItem>[],
+        returnValueForMissingStub: <_i10.CartItem>[],
+      ) as List<_i10.CartItem>);
+
+  @override
+  double get totalPrice => (super.noSuchMethod(
+        Invocation.getter(#totalPrice),
+        returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
+      ) as double);
+
+  @override
+  String get formattedTotal => (super.noSuchMethod(
+        Invocation.getter(#formattedTotal),
+        returnValue: _i3.dummyValue<String>(
+          this,
+          Invocation.getter(#formattedTotal),
+        ),
+        returnValueForMissingStub: _i3.dummyValue<String>(
+          this,
+          Invocation.getter(#formattedTotal),
+        ),
+      ) as String);
+
+  @override
+  bool get hasItems => (super.noSuchMethod(
+        Invocation.getter(#hasItems),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  bool isInCart(_i8.BundleData? bundle) => (super.noSuchMethod(
+        Invocation.method(
+          #isInCart,
+          [bundle],
+        ),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  _i10.CartItem? getItem(_i8.BundleData? bundle) => (super.noSuchMethod(
+        Invocation.method(
+          #getItem,
+          [bundle],
+        ),
+        returnValueForMissingStub: null,
+      ) as _i10.CartItem?);
+
+  @override
+  void addItem(_i8.BundleData? bundle) => super.noSuchMethod(
+        Invocation.method(
+          #addItem,
+          [bundle],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeOne(_i8.BundleData? bundle) => super.noSuchMethod(
+        Invocation.method(
+          #removeOne,
+          [bundle],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeItem(_i8.BundleData? bundle) => super.noSuchMethod(
+        Invocation.method(
+          #removeItem,
+          [bundle],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
