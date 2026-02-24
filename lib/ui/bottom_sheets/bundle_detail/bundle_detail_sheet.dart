@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_task_areeba/services/cart_service.dart';
+import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -27,6 +29,8 @@ class BundleDetailSheet extends StackedView<BundleDetailSheetModel> {
     final bundle = viewModel.bundle;
 
     if (bundle == null) return const SizedBox.shrink();
+
+    final cartService = context.watch<CartService>();
 
     return Container(
       padding: const EdgeInsets.all(24),
@@ -83,17 +87,18 @@ class BundleDetailSheet extends StackedView<BundleDetailSheetModel> {
             height: 24,
           ),
 
-          //Add to Cart / quantity controls
           if (!viewModel.isInCart)
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: viewModel.addToCart,
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0057FF),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30))),
+                  backgroundColor: const Color(0xFF0057FF),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
                 child: const Text(
                   'Add to Cart',
                   style: TextStyle(color: Colors.white, fontSize: 16),
@@ -101,47 +106,75 @@ class BundleDetailSheet extends StackedView<BundleDetailSheetModel> {
               ),
             )
           else
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Column(
               children: [
-                _QuantityButton(
-                  icon: Icons.remove,
-                  onTap: viewModel.decrement,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    'x${viewModel.quantity}',
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                _QuantityButton(
-                  icon: Icons.add,
-                  onTap: viewModel.increment,
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                GestureDetector(
-                  onTap: viewModel.remove,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade50,
-                      shape: BoxShape.circle,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _QuantityButton(
+                      icon: Icons.remove,
+                      onTap: viewModel.decrement,
                     ),
-                    child: const Icon(
-                      Icons.close,
-                      color: Colors.red,
-                      size: 18,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        'x${cartService.getItem(bundle)?.quantity ?? 0}',
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    _QuantityButton(
+                      icon: Icons.add,
+                      onTap: viewModel.increment,
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    GestureDetector(
+                      onTap: viewModel.remove,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.red.shade50,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.close,
+                          color: Colors.red,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // handle checkout navigation here
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF00C897),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: Text(
+                      '${cartService.formattedTotal} - CHECKOUT',
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
                     ),
                   ),
                 ),
               ],
             ),
+          const SizedBox(height: 16),
           const SizedBox(
-            height: 16,
+            height: 20,
           ),
         ],
       ),

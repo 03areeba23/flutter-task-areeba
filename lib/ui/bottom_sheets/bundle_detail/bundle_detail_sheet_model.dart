@@ -19,6 +19,8 @@ class BundleDetailSheetModel extends BaseViewModel {
 
   int get quantity => _cartService.getItem(_bundle!)?.quantity ?? 0;
 
+  String get cartTotal => _cartService.formattedTotal;
+
   void addToCart() {
     if (_bundle != null) _cartService.addItem(_bundle!);
     notifyListeners();

@@ -45,8 +45,4 @@ class TurkeyViewModel extends BaseViewModel {
       data: bundle,
     );
   }
-
-  void increment(BundleData bundle) => _cartService.addItem(bundle);
-  void decrement(BundleData bundle) => _cartService.removeOne(bundle);
-  void remove(BundleData bundle) => _cartService.removeItem(bundle);
 }

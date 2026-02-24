@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_task_areeba/services/cart_service.dart';
 import 'package:flutter_task_areeba/ui/widgets/common/bundle_card/bundle_card.dart';
 import 'package:flutter_task_areeba/ui/widgets/common/filter_chip_row/filter_chip_row.dart';
 import 'package:flutter_task_areeba/ui/widgets/common/regional_plan_card/regional_plan_card.dart';
+import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 
 import 'turkey_viewmodel.dart';
@@ -60,28 +62,6 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
             ),
           ),
         ),
-        bottomNavigationBar: viewModel.hasCartItems
-            ? Padding(
-                padding: const EdgeInsets.all(16),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00C897),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                  ),
-                  child: Text(
-                    '${viewModel.cartTotal} - CHECKOUT',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              )
-            : null,
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -152,13 +132,12 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
                   ),
                   itemBuilder: (_, i) {
                     final bundle = viewModel.bundles[i];
+                    final cartService = context.watch<CartService>();
                     return BundleCard(
-                        bundle: bundle,
-                        cartService: viewModel.cartService,
-                        onTap: () => viewModel.onBundleTapped(bundle),
-                        onIncrement: () => viewModel.increment(bundle),
-                        onDecrement: () => viewModel.decrement(bundle),
-                        onRemove: () => viewModel.remove(bundle));
+                      bundle: bundle,
+                      isInCart: cartService.isInCart(bundle),
+                      onTap: () => viewModel.onBundleTapped(bundle),
+                    );
                   }),
               const SizedBox(
                 height: 24,

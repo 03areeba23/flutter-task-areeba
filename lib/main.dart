@@ -3,6 +3,8 @@ import 'package:flutter_task_areeba/app/app.bottomsheets.dart';
 import 'package:flutter_task_areeba/app/app.dialogs.dart';
 import 'package:flutter_task_areeba/app/app.locator.dart';
 import 'package:flutter_task_areeba/app/app.router.dart';
+import 'package:flutter_task_areeba/services/cart_service.dart';
+import 'package:provider/provider.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 Future<void> main() async {
@@ -10,7 +12,10 @@ Future<void> main() async {
   await setupLocator();
   setupDialogUi();
   setupBottomSheetUi();
-  runApp(const MainApp());
+  runApp(
+    ChangeNotifierProvider(
+        create: (_) => locator<CartService>(), child: const MainApp()),
+  );
 }
 
 class MainApp extends StatelessWidget {
