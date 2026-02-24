@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_task_areeba/models/bundle_plan.dart';
 import 'package:flutter_task_areeba/ui/common/app_colors.dart';
 import 'package:flutter_task_areeba/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
@@ -16,38 +17,123 @@ class BundleDetailSheet extends StackedView<BundleDetailSheetModel> {
   }) : super(key: key);
 
   @override
+  void onViewModelReady(BundleDetailSheetModel viewModel) {
+    viewModel.init(request);
+  }
+
+  @override
   Widget builder(
     BuildContext context,
     BundleDetailSheetModel viewModel,
     Widget? child,
   ) {
+    final bundle = viewModel.bundle;
+
+    if (bundle == null) return const SizedBox.shrink();
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      padding: const EdgeInsets.all(24),
       decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            request.title ?? 'Hello Stacked Sheet!!',
-            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
+          //handle bar
+          Center(
+            child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(2))),
           ),
-          if (request.description != null) ...[
-            verticalSpaceTiny,
-            Text(
-              request.description!,
-              style: const TextStyle(fontSize: 14, color: kcMediumGrey),
-              maxLines: 3,
-              softWrap: true,
+          const SizedBox(
+            height: 20,
+          ),
+
+          //Bundle Info
+          Text(
+            bundle.data,
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 4,
+          ),
+          Text(
+            '${bundle.data} / ${bundle.validity}',
+            style: TextStyle(color: Colors.grey.shade500),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          const Divider(),
+          const SizedBox(
+            height: 16,
+          ),
+
+          //Price
+          Text(
+            bundle.price,
+            style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF0057FF)),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+
+          //Add to Cart / quantity controls
+          if (!viewModel.isInCart)
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: viewModel.addToCart,
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF0057FF),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30))),
+                child: const Text(
+                  'Add to Cart',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+            )
+          else
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _QuantityButton(
+                  icon: Icons.add,
+                  onTap: viewModel.increment,
+                ),
+                const SizedBox(
+                  width: 12,
+                ),
+                GestureDetector(
+                  onTap: viewModel.remove,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade50,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                      size: 18,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-          verticalSpaceLarge,
+          const SizedBox(
+            height: 16,
+          ),
         ],
       ),
     );
@@ -56,4 +142,29 @@ class BundleDetailSheet extends StackedView<BundleDetailSheetModel> {
   @override
   BundleDetailSheetModel viewModelBuilder(BuildContext context) =>
       BundleDetailSheetModel();
+}
+
+class _QuantityButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+  const _QuantityButton({required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
+          color: Color(0xFF0057FF),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          color: Colors.white,
+          size: 18,
+        ),
+      ),
+    );
+  }
 }
