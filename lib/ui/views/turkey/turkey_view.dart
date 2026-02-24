@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_task_areeba/ui/widgets/common/bundle_card/bundle_card.dart';
 import 'package:flutter_task_areeba/ui/widgets/common/filter_chip_row/filter_chip_row.dart';
 import 'package:flutter_task_areeba/ui/widgets/common/regional_plan_card/regional_plan_card.dart';
@@ -16,18 +17,51 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
     Widget? child,
   ) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Turkey'),
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: const Text(
+            'Turkey',
+            style: TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+          ),
           centerTitle: true,
+          leading: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              )),
           actions: [
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.shopping_bag_outlined),
+              icon: const Icon(Icons.shopping_bag_outlined),
             )
           ],
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+              colors: [
+                Color(0xFF5BC0EB),
+                Color(0xFF3A86FF),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            )),
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: RadialGradient(colors: [
+                  Color(0x664CFFB0),
+                  Color(0xFF5BC0EB),
+                ], radius: 0.8, center: Alignment(0, -1.0)),
+              ),
+            ),
+          ),
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -35,11 +69,16 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
               TextField(
                 decoration: InputDecoration(
                   hintText: 'Where do you need internet?',
+                  hintStyle: const TextStyle(color: Colors.grey),
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30)),
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: const BorderSide(color: Color(0xFF5BC0EB))),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: const BorderSide(color: Color(0xFF5BC0EB))),
                   filled: true,
-                  fillColor: Colors.grey.shade100,
+                  fillColor: Colors.grey.shade50,
                 ),
               ),
               const SizedBox(
@@ -48,6 +87,10 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
 
               //Country chip
               Chip(
+                shape: StadiumBorder(),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                backgroundColor: Colors.blue.shade50,
                 label: const Text('Turkey'),
                 avatar: const Text('🇹🇷', style: TextStyle(fontSize: 18)),
                 onDeleted: () {},
@@ -67,7 +110,8 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
 
               Text(
                 '${viewModel.bundles.length} Bundles Available for Turkey',
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               const SizedBox(
                 height: 12,
@@ -79,10 +123,10 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: viewModel.bundles.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 12,
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 14,
                   crossAxisSpacing: 12,
-                  childAspectRatio: 1.1,
+                  childAspectRatio: 0.8,
                 ),
                 itemBuilder: (_, i) => BundleCard(bundle: viewModel.bundles[i]),
               ),
@@ -92,7 +136,7 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
 
               const Text(
                 'Regional & Global Plans Supporting Turkey',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               const SizedBox(
                 height: 12,
@@ -133,6 +177,9 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
                     style: TextStyle(color: Colors.green),
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 24,
               )
             ],
           ),

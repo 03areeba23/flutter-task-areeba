@@ -17,11 +17,16 @@ class FilterChipRow extends StatelessWidget {
           padding: const EdgeInsets.only(right: 8),
           child: ChoiceChip(
             label: Text(label),
+            shape: const StadiumBorder(
+              side: BorderSide(color: Color(0xFF5BC0EB), width: 1),
+            ),
             selected: isSelected,
+            backgroundColor: Colors.white,
+            showCheckmark: false,
             onSelected: (_) => onSelect(f),
-            selectedColor: const Color(0xFF0066FF),
+            selectedColor: const Color(0xFF5BC0EB),
             labelStyle:
-                TextStyle(color: isSelected ? Colors.white : Colors.black),
+                TextStyle(color: isSelected ? Colors.white : Color(0xFF5BC0EB)),
           ),
         );
       }).toList(),

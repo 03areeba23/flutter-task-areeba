@@ -16,7 +16,16 @@ class RegionalPlanCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(plan.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.blue.shade50,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(plan.name,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          ),
           const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -24,24 +33,58 @@ class RegionalPlanCard extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('Data',
                     style:
-                        TextStyle(color: Colors.grey.shade500, fontSize: 11)),
-                Text(plan.data, style: const TextStyle(fontSize: 12)),
+                        TextStyle(color: Colors.grey.shade500, fontSize: 14)),
+                Text(plan.data,
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.bold)),
               ]),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('Valid for:',
                     style:
-                        TextStyle(color: Colors.grey.shade500, fontSize: 11)),
-                Text(plan.validity, style: const TextStyle(fontSize: 12)),
+                        TextStyle(color: Colors.grey.shade500, fontSize: 14)),
+                Text(plan.validity,
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.bold)),
               ]),
             ],
           ),
           const SizedBox(height: 6),
-          Text('${plan.supportedCountries} Supported Countries >',
-              style: const TextStyle(fontSize: 11, color: Color(0xFF0066FF))),
+          Divider(
+            thickness: 1,
+            height: 10,
+            color: Colors.grey.shade300,
+          ),
+          Row(children: [
+            Text('${plan.supportedCountries}',
+                style:
+                    const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+            const SizedBox(
+              width: 2,
+            ),
+            const Text(
+              'Supported Countries',
+              style: TextStyle(
+                fontSize: 11,
+              ),
+            ),
+            Spacer(),
+            const Icon(
+              Icons.arrow_forward_ios,
+              size: 12,
+              color: Colors.grey,
+            ),
+          ]),
           const SizedBox(height: 4),
+          Divider(
+            thickness: 1,
+            height: 10,
+            color: Colors.grey.shade300,
+          ),
           Text(plan.price,
               style: const TextStyle(
-                  fontWeight: FontWeight.bold, color: Color(0xFF0066FF))),
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF5BC0EB),
+                  fontSize: 18)),
         ],
       ),
     );
