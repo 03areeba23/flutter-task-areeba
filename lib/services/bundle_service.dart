@@ -3,14 +3,21 @@ import 'package:flutter_task_areeba/models/bundle_plan.dart';
 class BundleService {
   List<BundleData> getBundles() {
     return const [
-      BundleData(data: '3 GB', validity: '30 Days', price: 'USD 2.99'),
-      BundleData(data: '5 GB', validity: '7 days', price: 'USD 3.50'),
-      BundleData(data: '5 GB', validity: '15 days', price: 'USD 3.99'),
-      BundleData(data: '5 GB', validity: '30 days', price: 'USD 4.25'),
-      BundleData(data: '10 GB', validity: '10 days', price: 'USD 4.99'),
-      BundleData(data: '10 GB', validity: '15 days', price: 'USD 5.75'),
-      BundleData(data: '20 GB', validity: '30 days', price: 'USD 7.48'),
       BundleData(
+          id: 'b1', data: '3 GB', validity: '30 Days', price: 'USD 2.99'),
+      BundleData(id: 'b2', data: '5 GB', validity: '7 days', price: 'USD 3.50'),
+      BundleData(
+          id: 'b3', data: '5 GB', validity: '15 days', price: 'USD 3.99'),
+      BundleData(
+          id: 'b4', data: '5 GB', validity: '30 days', price: 'USD 4.25'),
+      BundleData(
+          id: 'b5', data: '10 GB', validity: '10 days', price: 'USD 4.99'),
+      BundleData(
+          id: 'b6', data: '10 GB', validity: '15 days', price: 'USD 5.75'),
+      BundleData(
+          id: 'b7', data: '20 GB', validity: '30 days', price: 'USD 7.48'),
+      BundleData(
+          id: 'b8',
           data: 'Unlimited',
           validity: '10 days',
           price: 'USD 5.50',

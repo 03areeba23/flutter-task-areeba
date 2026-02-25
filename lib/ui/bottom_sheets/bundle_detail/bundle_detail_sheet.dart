@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_areeba/services/cart_service.dart';
+import 'package:flutter_task_areeba/ui/widgets/common/cart_item_tile/cart_item_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -43,138 +44,88 @@ class BundleDetailSheet extends StackedView<BundleDetailSheetModel> {
         mainAxisSize: MainAxisSize.min,
         children: [
           //handle bar
-          Center(
-            child: Container(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // handle bar
+              Container(
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(2))),
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+
+              if (!viewModel.cartHasItems)
+                GestureDetector(
+                  onTap: () => completer!(SheetResponse()),
+                  child: const Icon(Icons.close, color: Colors.grey),
+                ),
+            ],
           ),
+
           const SizedBox(
             height: 20,
           ),
 
-          //Bundle Info
-          Text(
-            bundle.data,
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          Text(
-            '${bundle.data} / ${bundle.validity}',
-            style: TextStyle(color: Colors.grey.shade500),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          const Divider(),
-          const SizedBox(
-            height: 16,
-          ),
+          if (viewModel.cartHasItems) ...[
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 300),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: viewModel.cartItems.length,
+                itemBuilder: (context, index) {
+                  final item = viewModel.cartItems[index];
 
-          //Price
-          Text(
-            bundle.price,
-            style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF0057FF)),
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-
-          if (!viewModel.isInCart)
+                  return Column(
+                    key: ValueKey(item.bundle.id),
+                    children: [
+                      CartItemTile(
+                        item: item,
+                        onIncrement: () => viewModel.increment(item.bundle),
+                        onDecrement: () => viewModel.decrement(item.bundle),
+                        onRemove: () => viewModel.remove(item.bundle),
+                      ),
+                      const Divider(height: 1),
+                    ],
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: viewModel.addToCart,
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0057FF),
+                  backgroundColor: const Color(0xFF00C897),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: const Text(
-                  'Add to Cart',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ),
-            )
-          else
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _QuantityButton(
-                      icon: Icons.remove,
-                      onTap: viewModel.decrement,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        'x${cartService.getItem(bundle)?.quantity ?? 0}',
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    _QuantityButton(
-                      icon: Icons.add,
-                      onTap: viewModel.increment,
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    GestureDetector(
-                      onTap: viewModel.remove,
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.red.shade50,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.close,
-                          color: Colors.red,
-                          size: 18,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // handle checkout navigation here
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF00C897),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    child: Text(
-                      '${cartService.formattedTotal} - CHECKOUT',
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
-                    ),
+                child: Text(
+                  '${viewModel.cartTotal} - CHECKOUT',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                 ),
-              ],
+              ),
             ),
-          const SizedBox(height: 16),
+          ] else ...[
+            Center(
+              child: Text(
+                'Your cart is empty',
+                style: TextStyle(color: Colors.grey.shade400),
+              ),
+            ),
+          ],
+
           const SizedBox(
-            height: 20,
+            height: 16,
           ),
         ],
       ),
@@ -184,29 +135,4 @@ class BundleDetailSheet extends StackedView<BundleDetailSheetModel> {
   @override
   BundleDetailSheetModel viewModelBuilder(BuildContext context) =>
       BundleDetailSheetModel();
-}
-
-class _QuantityButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onTap;
-  const _QuantityButton({required this.icon, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: const BoxDecoration(
-          color: Color(0xFF0057FF),
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 18,
-        ),
-      ),
-    );
-  }
 }

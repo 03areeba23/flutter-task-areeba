@@ -30,8 +30,8 @@ class CartItemTile extends StatelessWidget {
                 item.bundle.price,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF0057FF),
-                  fontSize: 14,
+                  color: Color(0xFF5BC0EB),
+                  fontSize: 18,
                 ),
               ),
               Text(
@@ -99,7 +99,7 @@ class _QuantityButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(6),
         decoration: const BoxDecoration(
-          color: Color(0xFF0057FF),
+          color: Color(0xFF5BC0EB),
           shape: BoxShape.circle,
         ),
         child: Icon(icon, color: Colors.white, size: 14),

@@ -19,7 +19,7 @@ class BundleCard extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             color: isInCart ? Color(0xFF5BC0EB) : Colors.grey.shade200,
-            width: isInCart ? 1.5 : 1,
+            //width: isInCart ? 1.5 : 1,
           ),
           borderRadius: BorderRadius.circular(12),
         ),

@@ -18,6 +18,7 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
     TurkeyViewModel viewModel,
     Widget? child,
   ) {
+    final cartService = context.watch<CartService>();
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -132,7 +133,6 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
                   ),
                   itemBuilder: (_, i) {
                     final bundle = viewModel.bundles[i];
-                    final cartService = context.watch<CartService>();
                     return BundleCard(
                       bundle: bundle,
                       isInCart: cartService.isInCart(bundle),
@@ -153,19 +153,22 @@ class TurkeyView extends StackedView<TurkeyViewModel> {
 
               //Regional plan grid
               GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: viewModel.regionalPlans.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 0.9,
-                ),
-                itemBuilder: (_, i) => RegionalPlanCard(
-                  plan: viewModel.regionalPlans[i],
-                ),
-              ),
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: viewModel.regionalPlans.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 0.9,
+                  ),
+                  itemBuilder: (_, i) {
+                    final plan = viewModel.regionalPlans[i];
+                    return RegionalPlanCard(
+                        plan: plan,
+                        isInCart: cartService.isInCart(plan.toBundleData()),
+                        onTap: () => viewModel.onRegionalPlanTapped(plan));
+                  }),
               const SizedBox(
                 height: 24,
               ),

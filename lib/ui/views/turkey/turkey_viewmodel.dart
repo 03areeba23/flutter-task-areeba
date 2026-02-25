@@ -34,15 +34,43 @@ class TurkeyViewModel extends BaseViewModel {
 
   List<RegionalPlan> get regionalPlans => _bundleService.getRegionalPlans();
 
+  @override
+  void initialise() {
+    _cartService.addListener(_oncartChanged);
+  }
+
+  void _oncartChanged() {
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _cartService.removeListener(_oncartChanged);
+    super.dispose();
+  }
+
   void setFilter(BundleFilter filter) {
     _selectedFilter = filter;
     notifyListeners();
   }
 
   void onBundleTapped(BundleData bundle) {
+    _cartService.addItem(bundle);
+
     _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.bundleDetail,
       data: bundle,
+    );
+  }
+
+  void onRegionalPlanTapped(RegionalPlan plan) {
+    final bundle = plan.toBundleData();
+    print("Adding regional plan: ${bundle.data} ${bundle.price}");
+    _cartService.addItem(bundle);
+
+    _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.bundleDetail,
+      data: plan.toBundleData(),
     );
   }
 }

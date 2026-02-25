@@ -7,13 +7,12 @@ class CartService with ChangeNotifier {
 
   List<CartItem> get items => List.unmodifiable(_items);
 
-  bool isInCart(BundleData bundle) => _items.any(
-      (e) => e.bundle.data == bundle.data && e.bundle.price == bundle.price);
+  bool isInCart(BundleData bundle) {
+    return _items.any((e) => e.bundle.id == bundle.id);
+  }
 
-  CartItem? getItem(BundleData bundle) => _items
-      .where(
-          (e) => e.bundle.data == bundle.data && e.bundle.price == bundle.price)
-      .firstOrNull;
+  CartItem? getItem(BundleData bundle) =>
+      _items.where((e) => e.bundle.id == bundle.id).firstOrNull;
 
   double get totalPrice => _items.fold(0, (sum, item) => sum + item.totalPrice);
 
@@ -23,6 +22,7 @@ class CartService with ChangeNotifier {
     final existing = getItem(bundle);
     if (existing != null) {
       existing.quantity++;
+      print("Cart now has ${_items.length} items");
     } else {
       _items.add(CartItem(bundle: bundle));
     }
@@ -35,14 +35,14 @@ class CartService with ChangeNotifier {
     if (existing.quantity > 1) {
       existing.quantity--;
     } else {
-      _items.remove(existing);
+      //_items.remove(existing);
+      _items.removeWhere((e) => e.bundle.id == bundle.id);
     }
     notifyListeners();
   }
 
   void removeItem(BundleData bundle) {
-    _items.removeWhere(
-        (e) => e.bundle.data == bundle.data && e.bundle.price == bundle.price);
+    _items.removeWhere((e) => e.bundle.id == bundle.id);
     notifyListeners();
   }
 
